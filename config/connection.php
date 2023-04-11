@@ -1,7 +1,7 @@
 <?php
 
   $host = "127.0.0.1";
-  $dbname = "agenda";
+  $dbname = "contacts";
   $user = "root";
   $pass = "senha-password";
  

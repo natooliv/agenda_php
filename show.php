@@ -10,7 +10,7 @@
     <p><?= $contact["observations"] ?></p>
     <p class="bold">Foto:</p>
     <?php if (!empty($contact["photo"])): ?>
-      <img src="<?= $BASE_URL . $contact["photo"] ?>" alt="<?= $contact["name"] ?>" width="150" height="150">
+      <img src="<?= "./config/". $contact["photo"] ?>" alt="<?= $contact["name"] ?>" width="150" height="150">
     <?php endif; ?>
   </div>
 <?php

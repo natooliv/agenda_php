@@ -17,10 +17,18 @@ if(!empty($data)) {
 
     $photo = null;
     if(isset($_FILES["photo"]) && $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
-      $photo = file_get_contents($_FILES["photo"]["tmp_name"]);
+      $EXTENSAO = pathinfo($_FILES["photo"]['name'], PATHINFO_EXTENSION);
+      $NOME_FOTO= './public/' . sha1(uniqid().$_FILES['photo']['name']). "." . $EXTENSAO;
+      if (!is_dir("./public")) {
+       mkdir("./public", 0755, true);
+   }
+      move_uploaded_file($_FILES['photo']['tmp_name'], $NOME_FOTO);
+      $photo = $NOME_FOTO;
+     
+      
     }
     $query = "INSERT INTO contacts (name, phone, observations, photo) VALUES (:name, :phone, :observations, :photo)";
-
+   
     $stmt = $conn->prepare($query);
 
     $stmt->bindParam(":name", $name);
@@ -47,9 +55,21 @@ if(!empty($data)) {
     $phone = $data["phone"];
     $observations = $data["observations"];
     $id = $data["id"];
+    $photo = null;
+    if(isset($_FILES["photo"]) && $_FILES["photo"]["error"] == UPLOAD_ERR_OK) {
+      $EXTENSAO = pathinfo($_FILES["photo"]['name'], PATHINFO_EXTENSION);
+      $NOME_FOTO= './public/' . sha1(uniqid().$_FILES['photo']['name']). "." . $EXTENSAO;
+      if (!is_dir("./public")) {
+       mkdir("./public", 0755, true);
+   }
+      move_uploaded_file($_FILES['photo']['tmp_name'], $NOME_FOTO);
+      $photo = $NOME_FOTO;
+     
+      
+    }
 
     $query = "UPDATE contacts 
-              SET name = :name, phone = :phone, observations = :observations 
+              SET name = :name, phone = :phone, observations = :observations, photo = :photo
               WHERE id = :id";
 
     $stmt = $conn->prepare($query);
@@ -58,6 +78,7 @@ if(!empty($data)) {
     $stmt->bindParam(":phone", $phone);
     $stmt->bindParam(":observations", $observations);
     $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":photo", $photo, PDO::PARAM_LOB);
 
     try {
 
