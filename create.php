@@ -1,7 +1,4 @@
-Aqui está o código completo, com as alterações para permitir que o usuário envie uma foto:
 
-php
-Copy code
 <?php
   include_once("templates/header.php");
 ?>
